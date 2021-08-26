@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /books/prostokvaschino
+Allow: /$
+Disallow: /
+
+Host: https://storyme.org
