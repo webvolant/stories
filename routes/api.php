@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 //use Illuminate\Support\Facades\Session;
 
+use Illuminate\Support\Facades\File;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +30,71 @@ use Laravel\Socialite\Facades\Socialite;
  * get TOken by code url
  * todo: callback url to client and client will get token then will save token.
  */
+
+Route::get('/removeFile', function () {
+    //$files = \App\File::all();
+    $data = request()->all();
+    $id = $data['id'];
+    $file = \App\File::find($id);
+    File::delete(public_path().$file->path);
+    return response()->json(['file'=>$file]);
+    //return response()->json(['id'=>$data]);
+
+});
+
+
+Route::post('/getFiles', function () {
+    $files = \App\File::all();
+    return response()->json(['files'=>$files]);
+});
+
+Route::post('/files', function (Request $request) {
+    $data = $request->all();
+$filesArr = [];
+$audioTypes = ["mp3", "wav", 'mp4'];
+    //$files = $request->file('file');
+if(request()->hasFile('file')){
+        $files = request()->file('file');
+        foreach ($files as $file) {
+	 $fileName = time().'_'.$file->getClientOriginalName();
+$fileName = time().'_'.$file->getClientOriginalName();
+            $file->storeAs('files', $fileName, ['disk' => 'uploads']);
+            $filePath = '/uploads/files/'.$fileName;
+
+            $f = new \App\File;
+            $f->path = $filePath;
+            $f->size = $file->getSize();
+            $f->name = $file->getClientOriginalName();
+            $f->extension = $file->getClientOriginalExtension();
+
+            if(in_array($f->extension, $audioTypes)){
+                $f->type = 1;
+            }else{
+                $f->type = 2;
+            }
+
+$f->save();
+$filesArr[]=$f;
+
+//image resize
+            if($f->type==2){
+                $img = Image::make(public_path().$f->path);
+                $img->resize(400, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                    //$constraint->upsize();
+                });
+                $img->save(public_path().$f->path);
+            }
+
+//$item->files()->attach($f->id);
+
+
+	//return response()->json($fileName);
+}
+}
+    return response()->json(['files'=>$filesArr]);
+});
+
 
 //get url from api in front
 //start url for auth, to get
@@ -483,3 +549,7 @@ Route::get('/item/{id}', function ($id) {
     })->name('items');
     //return $request->user();
 //});
+
+
+
+

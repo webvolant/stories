@@ -1,12 +1,23 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @isset($item)
-            <form class="flex flex-col w-full" method="POST" action="{{ route('story.store', $item->id) }}">
+            <form class="flex flex-col w-full" method="POST" action="{{ route('story.update', $item->id) }}">
         @else
             <form class="flex flex-col w-full" method="POST" action="{{ route('story.store') }}">
         @endisset
             @csrf
+                @isset($item) @method('put') @endisset
             <div class="flex w-full">
                 <div class="form-group">
                     <label for="name">Title</label>
@@ -33,7 +44,13 @@
                 </div>
                 --}}
             </div>
-            <button type="submit">Сохранить</button>
+
+                <div class="title m-b-md">
+                    File Uploader - Dropzone
+                </div>
+                <file-uploader></file-uploader>
+
+            <button type="submit" class="btn btn-primary">Сохранить</button>
             <form>
     </div>
 @endsection

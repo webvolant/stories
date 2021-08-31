@@ -26,7 +26,11 @@ Vue.component(QBtn.name, QBtn)
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('audio-player', require('./components/AudioPlayer.vue').default);
+Vue.component('file-uploader', require('./components/FileUploader.vue').default);
+
+
 Vue.component('users-index', require('./components/users/Index.vue').default);
+Vue.component('stories-index', require('./components/stories/Index.vue').default);
 
 const app = new Vue({
 	el: '#app',

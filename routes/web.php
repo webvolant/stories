@@ -14,9 +14,12 @@ use App\Http\Controllers\StoryController;
 |
 */
 Route::get('/admin/create', [StoryController::class, 'show']);
-Route::get('/admin/edit', [StoryController::class, 'edit']);
+Route::get('/admin/edit/{id}', [StoryController::class, 'edit'])->name('story.edit');//->where('id', '.*');
+
+Route::put('/admin/update/{id}', [StoryController::class, 'update'])->name('story.update');
+
 Route::post('/admin/store', [StoryController::class, 'store'])->name('story.store');
-Route::get('/admin/list', [StoryController::class, 'list']);
+Route::get('/admin/index', [StoryController::class, 'index']);
 
 
 Route::get('/', function () {
