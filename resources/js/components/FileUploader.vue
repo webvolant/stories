@@ -1,5 +1,6 @@
 <template>
   <div>
+    id: {{id}}<br/>
     <vue-dropzone
       ref="myVueDropzone"
       id="dropzone"
@@ -31,6 +32,11 @@
 		components: {
 			vueDropzone: vue2Dropzone
 		},
+		props: {
+			id: null,/*{
+				type: Object
+			}*/
+		},
 		data() {
 			return {
 				dropzoneOptions: {
@@ -39,7 +45,9 @@
 					//maxFiles: 1
           uploadMultiple:true,
 					parallelUploads:10,
-
+					params: {
+						id:this.id,
+					}
 				},
 				filesUploaded: [],
 			};

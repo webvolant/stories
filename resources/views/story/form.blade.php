@@ -18,6 +18,9 @@
         @endisset
             @csrf
                 @isset($item) @method('put') @endisset
+
+                <input type="hidden" name="id" value="{{isset($item->id) ? $item->id : $id}}"/>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             <div class="flex w-full">
                 <div class="form-group">
                     <label for="name">Title</label>
@@ -29,10 +32,15 @@
                     @enderror
                 </div>
 
-                {{--<div class="form-group">
+                <div class="form-group">
                     <label for="name">Slug</label>
                     <input type="text" class="form-control" name="slug" value="{{ old('slug', $item->slug) }}"/>
-                </div>--}}
+                    @error('slug')
+                    <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('slug') }}</strong>
+                        </span>
+                    @enderror
+                </div>
 
                 {{-- form input element
                 <div class="flex flex-wrap">
@@ -48,9 +56,9 @@
                 <div class="title m-b-md">
                     File Uploader - Dropzone
                 </div>
-                <file-uploader></file-uploader>
+                <file-uploader :id="{{isset($item->id) ? $item->id : $id}}"></file-uploader>
 
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+
             <form>
     </div>
 @endsection

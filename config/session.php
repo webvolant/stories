@@ -156,7 +156,7 @@ return [
     */
 
     //'domain' => 'http://192.168.56.101', //env('SESSION_DOMAIN', '.webeskadra.ru'),
-    'domain' => env('SESSION_DOMAIN', 'storyme.org'),
+    'domain' => env('SESSION_DOMAIN', ''),
 
     /*
     |--------------------------------------------------------------------------

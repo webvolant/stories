@@ -15,10 +15,14 @@ class StoryController extends Controller
     }
 
     public function show(){
-        $id=DB::select("SHOW TABLE STATUS LIKE 'items'");
-        $next_id=$id[0]->Auto_increment;
+        //$id=DB::select("SHOW TABLE STATUS LIKE 'items'");
+        //$next_id=$id[0]->Auto_increment;
         //dd($next_id);
-        return view('story.form', array('id'=>$next_id));
+        $item = new Item();
+        $item->status = 0;
+        $item->save();
+
+        return view('story.form', array('id'=>$item->id));
     }
 
     public function edit($id){
@@ -28,6 +32,7 @@ class StoryController extends Controller
     }
 
     public function update(Request $request, $id){
+        //dd($request->id);
         $storeData = $request->validate([
             'title' => 'required|max:255',
             //'slug' => 'required|max:255',
@@ -42,7 +47,8 @@ class StoryController extends Controller
             'slug' => 'required|max:255',
         ]);
 
-        $item = Item::create($storeData);
+        //$item = Item::create($storeData);
+        Item::whereId($request->id)->update($storeData);
         return redirect('/admin/create')->with('completed', 'Item has been saved!');
     }
 

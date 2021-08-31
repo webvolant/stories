@@ -2239,11 +2239,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     vueDropzone: vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
+  props: {
+    id: null
+    /*{
+    type: Object
+    }*/
+
   },
   data: function data() {
     return {
@@ -2252,7 +2260,10 @@ __webpack_require__.r(__webpack_exports__);
         addRemoveLinks: true,
         //maxFiles: 1
         uploadMultiple: true,
-        parallelUploads: 10
+        parallelUploads: 10,
+        params: {
+          id: this.id
+        }
       },
       filesUploaded: []
     };
@@ -45593,6 +45604,9 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm._v("\n  id: " + _vm._s(_vm.id)),
+      _c("br"),
+      _vm._v(" "),
       _c(
         "vue-dropzone",
         {
