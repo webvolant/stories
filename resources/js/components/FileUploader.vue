@@ -19,7 +19,7 @@
           <span v-for="(item, index) in filesUploaded" class="list-group-item list-group-item-action">
             <img :src="item.path" width="40px"/>
             {{ item.name }}
-            <btn type="button" @click="myRemoveFile(item.id)" class="btn btn-secondary pull-right">x</btn>
+            <button type="button" @click="myRemoveFile(item.id)" class="btn btn-secondary pull-right">x</button>
           </span>
     </div>
   </div>
@@ -43,7 +43,7 @@
 					url: "/api/files",
 					addRemoveLinks: true,
 					//maxFiles: 1
-          uploadMultiple:true,
+					uploadMultiple:true,
 					parallelUploads:10,
 					params: {
 						id:this.id,
@@ -52,9 +52,10 @@
 				filesUploaded: [],
 			};
 		},
-    mounted(){
+		mounted(){
 			this.getNotAssignedFiles()
-    },
+			console.log('uploader init4')
+		},
 		methods: {
 			uploadSuccess(file, response) {
 				console.log('File Successfully Uploaded with file name: ' + response.files);
@@ -69,24 +70,24 @@
 			fileRemoved() {},
 			getNotAssignedFiles(){
 				let that = this;
-				axios.post('/api/getFiles').then((response) => {
+				axios.post('/api/getFiles', {id:this.id}).then((response) => {
 					console.log(response)
-          that.filesUploaded = response.data.files
+					that.filesUploaded = response.data.files
 				}).catch((e) => {
 					console.log(e)
 				})
-      },
+			},
 			myRemoveFile(id){
 				let that = this;
 				axios.get('/api/removeFile',{ params: {id:id} }).then((response) => {
 					console.log(response)
-          that.getNotAssignedFiles();
+					that.getNotAssignedFiles();
 					//that.filesUploaded = response.data.files
 				}).catch((e) => {
 					console.log(e)
 				})
 
-      },
+			},
 		}
 	};
 </script>

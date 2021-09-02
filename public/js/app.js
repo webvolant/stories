@@ -2270,6 +2270,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getNotAssignedFiles();
+    console.log('uploader init4');
   },
   methods: {
     uploadSuccess: function uploadSuccess(file, response) {
@@ -2283,7 +2284,9 @@ __webpack_require__.r(__webpack_exports__);
     fileRemoved: function fileRemoved() {},
     getNotAssignedFiles: function getNotAssignedFiles() {
       var that = this;
-      axios.post('/api/getFiles').then(function (response) {
+      axios.post('/api/getFiles', {
+        id: this.id
+      }).then(function (response) {
         console.log(response);
         that.filesUploaded = response.data.files;
       })["catch"](function (e) {
@@ -45646,7 +45649,7 @@ var render = function() {
               _c("img", { attrs: { src: item.path, width: "40px" } }),
               _vm._v("\n          " + _vm._s(item.name) + "\n          "),
               _c(
-                "btn",
+                "button",
                 {
                   staticClass: "btn btn-secondary pull-right",
                   attrs: { type: "button" },
@@ -45658,8 +45661,7 @@ var render = function() {
                 },
                 [_vm._v("x")]
               )
-            ],
-            1
+            ]
           )
         }),
         0
